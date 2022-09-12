@@ -1,26 +1,11 @@
-import { addDays, format, isSameDay } from 'date-fns'
-import { useState, useEffect, useMemo } from 'react'
+import { addDays, isSameDay } from 'date-fns'
+import { useState, useEffect } from 'react'
 import DateView from '../components/Date'
 import AvailabilityForm from '../components/AvailabilityForm'
 import { supabase } from '../lib/initSupabase'
 import { User } from '@supabase/supabase-js'
-
-export interface Booking {
-  id?: number
-  date: Date | string
-  is_available: boolean
-  is_by_car: boolean
-  user_id: number
-  users?: {
-    name: string
-  }
-}
-
-interface Employee {
-  id: number
-  name: string
-  auth_id: string
-}
+import { Booking, Employee } from '../types'
+import { getBookingsByDate, getEmployeeByUserId } from '../lib/database'
 
 export default function AvailabilityBooker({ user }: { user: User }) {
   const [activeDate, setActiveDate] = useState<Date>(null)
@@ -29,28 +14,24 @@ export default function AvailabilityBooker({ user }: { user: User }) {
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const otherBookings = bookings.filter((booking) =>
-    booking.user_id != employee.id &&
+    booking.user_id != employee?.id &&
     booking.is_available
   )
-  const myBooking = bookings.find((booking) => booking.user_id === employee.id) || {
+  const myBooking = bookings.find((booking) => booking.user_id === employee?.id) || {
     id: null,
     date: activeDate,
     is_available: false,
     is_by_car: false,
-    user_id: null,
+    user_id: employee?.id,
   }
 
   async function loadTable(date) {
     setLoading(true)
     setBookings([])
 
-    const { data } = await supabase
-      .from<Booking>('bookings')
-      .select('id, date, is_available, is_by_car, user_id, users ( name )')
-      .eq('date', format(date, 'yyyy-MM-dd'))
+    const data = await getBookingsByDate(date)
 
     setLoading(false)
-    console.log(data)
 
     if (data.length > 0) {
       setBookings(data)
@@ -58,13 +39,10 @@ export default function AvailabilityBooker({ user }: { user: User }) {
   }
 
   async function loadEmployee(user: User) {
-    const { data } = await supabase
-      .from<Employee>('users')
-      .select('id, name')
-      .eq('auth_id', user.id)
+    const employee = await getEmployeeByUserId(user.id)
 
-    if (data.length > 0) {
-      setEmployee(data[0])
+    if (employee) {
+      setEmployee(employee)
     }
   }
 
@@ -78,7 +56,7 @@ export default function AvailabilityBooker({ user }: { user: User }) {
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between overflow-x-scroll">
         {[...Array(5).keys()].map((days) => {
           const date = addDays(new Date(), days)
 

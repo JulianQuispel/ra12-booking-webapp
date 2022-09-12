@@ -15,7 +15,7 @@ export default function DateView({
   return (
     <div className={className} onClick={() => setActiveDate(date)}>
       <strong className="w-full block text-sm">{format(date, 'iiii')}</strong>
-      <span className="text-xs block">{format(date, 'd MMMM')}</span>
+      <span className="text-xs block whitespace-nowrap">{format(date, 'd MMMM')}</span>
     </div>
   )
 }

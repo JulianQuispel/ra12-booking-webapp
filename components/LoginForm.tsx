@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { supabase } from '../lib/initSupabase'
-
-interface LoginForm {
-  emailAddress: string
-}
+import { LoginFormData } from '../types'
 
 export default function LoginForm() {
-  const [form, setForm] = useState<LoginForm>({
+  const [form, setForm] = useState<LoginFormData>({
     emailAddress: '',
   })
   const [isLoading, setLoading] = useState<boolean>(false)

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/initSupabase'
-import { Booking } from '../components/AvailabilityBooker'
+import { Booking } from '../types'
 
 export default function AvailabilityForm({ booking, isLoading }: {
   booking: Booking,
   isLoading: boolean
 }) {
   const upsertAvailability = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('bookings')
       .upsert({
         id: availabilityForm.id || undefined,
