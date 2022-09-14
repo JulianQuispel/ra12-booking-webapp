@@ -11,11 +11,11 @@ export const getBookingsByDate = async (date: Date) => {
   return data
 }
 
-export const getEmployeeByUserId = async (userId: string) => {
+export const getEmployeeByEmail = async (email: string) => {
   const { data } = await supabase
       .from<Employee>('users')
       .select('id, name')
-      .eq('auth_id', userId)
+      .eq('email', email)
 
   if(data.length > 0) {
     return data[0]

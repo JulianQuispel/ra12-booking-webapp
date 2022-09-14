@@ -17,4 +17,5 @@ export interface Employee {
   id: number
   name: string
   auth_id: string
+  email: string
 }

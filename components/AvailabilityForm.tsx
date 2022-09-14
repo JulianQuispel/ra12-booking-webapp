@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/initSupabase'
 import { Booking } from '../types'
 
-export default function AvailabilityForm({ booking, isLoading }: {
+export default function AvailabilityForm({ booking, isLoading, loadTables }: {
   booking: Booking,
-  isLoading: boolean
+  isLoading: boolean,
+  loadTables: CallableFunction
 }) {
   const upsertAvailability = async () => {
+    console.log(booking.user_id)
     const { data } = await supabase
       .from('bookings')
       .upsert({
@@ -23,12 +25,18 @@ export default function AvailabilityForm({ booking, isLoading }: {
       ...availabilityForm,
       id: data[0].id,
     })
+    loadTables(new Date())
+
+    setSuccess(true)
+    setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
   }
 
   const [availabilityForm, setAvailabilityForm] = useState(booking)
+  const [isSuccess, setSuccess] = useState(false)
 
   useEffect(() => {
-    console.log(booking)
     setAvailabilityForm(booking)
   }, [booking])
 
@@ -77,13 +85,14 @@ export default function AvailabilityForm({ booking, isLoading }: {
         <div className="mt-4">
           <button
             type="button"
-            disabled={isLoading || !availabilityForm.is_available}
+            disabled={isLoading}
             className={'bg-blue-600 text-white font-semibold w-full rounded-md p-3 transition ease-in-out duration-150 ' +
               ((isLoading ? 'opacity-50' : 'hover:bg-blue-500'))}
             onClick={upsertAvailability}
           >
             {isLoading ? 'Laden...' : 'Opslaan'}
           </button>
+          {isSuccess && <div className="bg-green-500 text-green-800 mt-2 rounded-md p-2">Beschikbaarheid opgeslagen</div>}
         </div>
 
       </form>

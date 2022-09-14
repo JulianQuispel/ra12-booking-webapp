@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { supabase } from '../lib/initSupabase'
+import { getEmployeeByEmail } from '../lib/database'
 import { LoginFormData } from '../types'
 
-export default function LoginForm() {
+export default function LoginForm({ setUser }: { setUser: CallableFunction }) {
   const [form, setForm] = useState<LoginFormData>({
     emailAddress: '',
   })
   const [isLoading, setLoading] = useState<boolean>(false)
-  const [isSuccess, setSuccess] = useState<boolean>(false)
   const [error, setError] = useState<string>()
 
   async function signIn(e) {
@@ -15,15 +14,12 @@ export default function LoginForm() {
 
     setLoading(true)
 
-    const { user, session, error } = await supabase.auth.signIn({
-      email: form.emailAddress,
-    })
+    const user = await getEmployeeByEmail(form.emailAddress)
 
-    if (error) setError(error.message)
+    if (!error) setError('Er is geen gebruiker gevonden met dit e-mailadres')
 
-    if (!error) setSuccess(true)
+    if (user) setUser(user)
 
-    console.log(user, session, error)
     setLoading(false)
   }
 
@@ -34,7 +30,7 @@ export default function LoginForm() {
         Login met uw account
       </h1>
 
-      {!isSuccess && <form method="post" onSubmit={signIn}>
+      <form method="post" onSubmit={signIn}>
 
         <div>
           <label htmlFor="email" className="font-semibold">E-mailadres</label>
@@ -59,9 +55,7 @@ export default function LoginForm() {
         >
           {isLoading ? 'Aan het inloggen...' : 'Login'}
         </button>
-      </form>}
-
-      {isSuccess && <span>Wij hebben u een mailtje gestuurd met een code waarmee u kan inloggen</span>}
+      </form>
     </div >
   )
 }

@@ -1,22 +1,11 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import { User } from '@supabase/supabase-js'
-import { supabase } from '../lib/initSupabase'
+import { useState } from 'react'
 import LoginForm from '../components/LoginForm'
 import AvailabilityBooker from '../components/AvailabilityBooker'
+import { Employee } from '../types'
 
 export default function Home() {
-  const [user, setUser] = useState<User>(null)
-
-  supabase.auth.onAuthStateChange(() => {
-    setUser(supabase.auth.user())
-  })
-
-  useEffect(() => {
-    if (supabase.auth.user()) {
-      setUser(supabase.auth.user())
-    }
-  }, [])
+  const [user, setUser] = useState<Employee>(null)
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center">
@@ -27,7 +16,7 @@ export default function Home() {
 
       <div className="w-full md:w-1/3 flex flex-col items-center">
 
-        <svg className="w-64 h-64 mb-8" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1200 1200" enable-background="new 0 0 1200 1200">
+        <svg className="w-64 h-64 mb-8" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1200 1200" enableBackground="new 0 0 1200 1200">
           <g>
             <g>
               <path
@@ -194,7 +183,7 @@ export default function Home() {
 
         <div className="bg-white w-full rounded-md items-stretch shadow-md">
           <div>
-            {!user ? <LoginForm /> : <AvailabilityBooker user={user} />}
+            {!user ? <LoginForm setUser={setUser} /> : <AvailabilityBooker user={user} setUser={setUser} />}
           </div>
         </div>
 
