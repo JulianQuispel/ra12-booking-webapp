@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { nl } from 'date-fns/locale'
 
 export default function DateView({
   date,
@@ -14,8 +15,8 @@ export default function DateView({
 
   return (
     <div className={className} onClick={() => setActiveDate(date)}>
-      <strong className="w-full block text-sm">{format(date, 'iiii')}</strong>
-      <span className="text-xs block whitespace-nowrap">{format(date, 'd MMMM')}</span>
+      <strong className="w-full block text-sm">{format(date, 'iiii', { locale: nl })}</strong>
+      <span className="text-xs block whitespace-nowrap">{format(date, 'd MMMM', { locale: nl })}</span>
     </div>
   )
 }
