@@ -56,6 +56,7 @@ export default function AvailabilityForm({ booking, isLoading, loadTables }: {
               onChange={(event) => {
                 setAvailabilityForm({
                   ...availabilityForm,
+                  is_by_car: availabilityForm.is_by_car && event.target.checked,
                   is_available: event.target.checked,
                 })
               }}
@@ -74,6 +75,7 @@ export default function AvailabilityForm({ booking, isLoading, loadTables }: {
               onChange={(event) => {
                 setAvailabilityForm({
                   ...availabilityForm,
+                  is_available: availabilityForm.is_available || event.target.checked,
                   is_by_car: event.target.checked,
                 })
               }}
