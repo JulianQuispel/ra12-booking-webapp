@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LoginForm from '../components/LoginForm'
 import AvailabilityBooker from '../components/AvailabilityBooker'
 import { Employee } from '../types'
 
 export default function Home() {
   const [user, setUser] = useState<Employee>(null)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (typeof storedUser !== 'undefined') {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center">

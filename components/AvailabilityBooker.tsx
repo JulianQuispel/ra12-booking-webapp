@@ -35,6 +35,11 @@ export default function AvailabilityBooker({ user, setUser }: {
     }
   }
 
+  function signOut() {
+    setUser(null)
+    localStorage.removeItem('user')
+  }
+
   useEffect(() => {
     const today = new Date()
     setActiveDate(today)
@@ -78,7 +83,7 @@ export default function AvailabilityBooker({ user, setUser }: {
 
         <button
           className="bg-red-700 w-full hover:bg-red-600 rounded-md p-3 font-bold text-white transition ease-in-out duration-150"
-          onClick={() => setUser(null)}
+          onClick={signOut}
         >
           Uitloggen
         </button>

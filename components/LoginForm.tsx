@@ -18,7 +18,10 @@ export default function LoginForm({ setUser }: { setUser: CallableFunction }) {
 
     if (!error) setError('Er is geen gebruiker gevonden met dit e-mailadres')
 
-    if (user) setUser(user)
+    if (user) {
+      setUser(user)
+      localStorage.setItem('user', JSON.stringify(user))
+    }
 
     setLoading(false)
   }
