@@ -15,15 +15,15 @@ function MyApp({ Component, pageProps }) {
         <meta name="keywords" content="Keywords" />
         <title>RA12 - booker</title>
 
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/booker.webmanifest" />
         <link
-          href="/icons/favicon-16x16.png"
+          href="/icons/icon-16x16.png"
           rel="icon"
           type="image/png"
           sizes="16x16"
         />
         <link
-          href="/icons/favicon-32x32.png"
+          href="/icons/icon-32x32.png"
           rel="icon"
           type="image/png"
           sizes="32x32"
