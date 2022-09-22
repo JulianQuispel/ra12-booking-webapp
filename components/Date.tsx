@@ -9,8 +9,8 @@ export default function DateView({
   isActive: boolean,
   setActiveDate: Function,
 }) {
-  let className = 'p-2 text-center cursor-pointer h-full rounded-md text-gray-800 '
-  className += isActive ? 'bg-blue-400' : 'bg-blue-600'
+  let className = 'p-2 text-center cursor-pointer h-full rounded-md text-gray-800 border-2 '
+  className += isActive ? 'bg-blue-200 border-blue-400' : 'bg-gray-200'
 
   return (
     <div className={className} onClick={() => setActiveDate(date)}>

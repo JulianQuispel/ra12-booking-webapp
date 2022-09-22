@@ -49,7 +49,7 @@ export default function AvailabilityBooker({ user, setUser }: {
           const date = addDays(new Date(), days)
 
           return (
-            <div className="m-2 w-full" key={date.getTime()}>
+            <div className="my-2 mx-1 w-full" key={date.getTime()}>
               <DateView date={date} isActive={isSameDay(date, activeDate)} setActiveDate={(date) => {
                 setActiveDate(date)
                 loadTable(date)

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useState } from 'react'
 import LoginForm from '../components/LoginForm'
 import AvailabilityBooker from '../components/AvailabilityBooker'
@@ -9,11 +8,6 @@ export default function Home() {
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center">
-
-      <Head>
-        <title>RA12 - boeker</title>
-      </Head>
-
       <div className="w-full md:w-1/3 flex flex-col items-center">
 
         <svg className="w-64 h-64 mb-8 mt-4 md:mt-12" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1200 1200" enableBackground="new 0 0 1200 1200">
